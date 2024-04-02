@@ -23,6 +23,15 @@ jobs:
     steps:
     # Pulls the code for this repository to the VM 
     - uses: actions/checkout@v3
+    # Cache npm dependencies that can be used for consecutive jobs to avoid downloading every time the job is run, in this case could be used to check for cached npm depedencies before continue running npm i
+    # Looks like npm ci already handles that check for us. Will only run if there are mismatch between cached npm and package-lock.json
+    - name: Cache NPM dependencies
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-npm-cache-
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
@@ -32,3 +41,4 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+
