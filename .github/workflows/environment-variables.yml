@@ -2,7 +2,9 @@ name: CI
 on: push
 jobs:
   prod-check:
+  # Context variables can can be used at any time in the workflow
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
+    # Default variables can only be used within a runner that is executed (when job is executed)
       - run: echo "Deploying to production server on branch $GITHUB_REF"
