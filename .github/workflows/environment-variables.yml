@@ -7,4 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     # Default variables can only be used within a runner that is executed (when job is executed)
-      - run: echo "Deploying to production server on branch $GITHUB_REF"
+    # Run is used to run scripts available in the job/runner
+      - run: echo "Deploying to production server on branch $GITHUB_REF, custom environment variable is $First_Name"
+        env:
+          First_Name: Vic
